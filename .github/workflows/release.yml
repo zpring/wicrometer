@@ -50,6 +50,6 @@ jobs:
         if: "${{ inputs.action != 'publish' }}"
         uses: "./.github/actions/build"
         with:
-          maven_packages_registry: ${{ inputs.packages_registry }}
-          verify: "${{ inputs.action == 'verify-snapshot' || inputs.action == 'verify' }}"
-          create_deployment: "${{ inputs.action == 'release-snapshot' || inputs.action == 'release' }}"
+          packages_registry: ${{ inputs.packages_registry }}
+          create_deployment: "${{ (inputs.action == 'release-snapshot') || (inputs.action == 'release') }}"
+          verify: "${{ (inputs.action == 'verify-snapshot') || (inputs.action == 'verify') }}"
