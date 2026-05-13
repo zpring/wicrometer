@@ -1,6 +1,6 @@
 #!/bin/bash
 
 echo "Here I would build"
-echo "$PACKAGES_REGISTRY"
-echo "$CREATE_DEPLOYMENT"
-echo "$VERIFY"
+echo "PACKAGES_REGISTRY = $PACKAGES_REGISTRY"
+echo "CREATE_DEPLOYMENT= $CREATE_DEPLOYMENT"
+echo "VERIFY = $VERIFY"
