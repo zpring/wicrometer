@@ -2,6 +2,15 @@ name: "Build Snapshot Release"
 on:
   workflow_dispatch:
     inputs:
+      action:
+        description: "Release action to perform"
+        type: choice
+        options:
+          - release-snapshot
+          - verify-snapshot
+          - release
+          - verify
+          - publish
       packages_registry:
         description: "Maven packages registry to resolve release dependencies"
         required: true
@@ -21,10 +30,10 @@ on:
 permissions:
   contents: "read"
 concurrency:
-  group: "${{ github.workflow }}-${{ github.ref }}"
+  group: "${{ github.workflow }}-${{ github.ref }}-${{ inputs.action }}"
 jobs:
-  build-snapshot-release:
-    name: "Build Snapshot Release"
+  release:
+    name: "Release (${{ inputs.action }})"
     runs-on: "ubuntu-latest"
     steps:
       - name: "Set up Java"
@@ -38,8 +47,9 @@ jobs:
         uses: "actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd" # 6.0.2
       - name: "Build"
         id: "build"
+        if: "${{ inputs.action != 'publish' }}"
         uses: "./.github/actions/build"
         with:
           maven_packages_registry: ${{ inputs.packages_registry }}
-          verify: "false"
-          create_deployment: "true"
+          verify: "${{ inputs.action == 'verify-snapshot' || inputs.action == 'verify' }}"
+          create_deployment: "${{ inputs.action == 'release-snapshot' || inputs.action == 'release' }}"
