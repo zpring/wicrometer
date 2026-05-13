@@ -1,0 +1,20 @@
+name: "Verify Snapshot"
+"on":
+  workflow_dispatch:
+    inputs:
+      maven_packages_registry:
+        description: "Maven packages registry to resolve release dependencies"
+        required: true
+        type: string
+      return_dispatch_repository:
+        description: "Repository that handles the return dispatch"
+        required: true
+        type: string
+      return_dispatch_branch:
+        description: "Branch that handles the return dispatch"
+        required: true
+        type: string
+      return_dispatch_workflow:
+        description: "Workflow that handles the return dispatch"
+        required: true
+        type: string
