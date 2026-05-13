@@ -2,7 +2,7 @@ name: "Build Snapshot Release"
 on:
   workflow_dispatch:
     inputs:
-      maven_packages_registry:
+      packages_registry:
         description: "Maven packages registry to resolve release dependencies"
         required: true
         type: string
@@ -40,6 +40,6 @@ jobs:
         id: "build"
         uses: "./.github/actions/build"
         with:
-          maven_packages_registry: ${{ inputs.maven_packages_registry }}
+          maven_packages_registry: ${{ inputs.packages_registry }}
           verify: "false"
           create_deployment: "true"
