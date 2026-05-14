@@ -19,5 +19,5 @@ runs:
     run: $GITHUB_ACTION_PATH/build.sh
     env:
       PACKAGES_REGISTRY: ${{ github.event.inputs.packages_registry }}
-      CREATE_DEPLYMENT: ${{ github.event.inputs.create_deployment }}
-      VERIFY: ${{ github.event.inputs.verify }}
+      CREATE_DEPLOYMENT: ${{ github.event.inputs.create_deployment }}
+      VERVERIFYIFY: ${{ github.event.inputs.verify }}
