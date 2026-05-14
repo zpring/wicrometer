@@ -1,0 +1,34 @@
+name: "Release"
+run-name: "Release (${{ inputs.action }})"
+on:
+  workflow_dispatch:
+    inputs:
+      releaser_repository:
+        description: "GitHub repository that is performing the release (ORG/REPO)"
+        required: true
+        type: string
+      releaser_ref:
+        description: "Ref of the branch or tag performing the release"
+        required: true
+        type: string
+permissions:
+  contents: "read"
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}-${{ inputs.action }}"
+jobs:
+  publish:
+    name: "Publish"
+    runs-on: "ubuntu-latest"
+    if: "${{ inputs.action == 'publish' }}"
+    environment: publish
+    steps:
+      - name: "Return"
+        id: "return"
+        if: ${{ !cancelled() }}
+        run: |
+          curl -L -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.RELEASE_GITHUB_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2026-03-10" \
+            https://api.github.com/repos/${{ inputs.releaser_repository }}/actions/workflows/resume.yml/dispatches \
+            -d '{"ref":"${{ inputs.releaser_ref }}","inputs":{"repository":"${{ github.repository }}", "run_id":"${{ github.run_id }}", "run_attempt":"${{ github.run_attempt }}"}}'

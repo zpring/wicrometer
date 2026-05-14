@@ -11,7 +11,6 @@ on:
           - verify-snapshot
           - release
           - verify
-          - publish
       packages_registry:
         description: "Maven packages registry to resolve release dependencies"
         required: true
@@ -55,22 +54,6 @@ jobs:
         if: "${{ inputs.action == 'publish' }}"
         run: |
           echo "Published"
-      - name: "Return"
-        id: "return"
-        if: ${{ !cancelled() }}
-        run: |
-          curl -L -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.RELEASE_GITHUB_TOKEN }}" \
-            -H "X-GitHub-Api-Version: 2026-03-10" \
-            https://api.github.com/repos/${{ inputs.releaser_repository }}/actions/workflows/resume.yml/dispatches \
-            -d '{"ref":"${{ inputs.releaser_ref }}","inputs":{"repository":"${{ github.repository }}", "run_id":"${{ github.run_id }}", "run_attempt":"${{ github.run_attempt }}"}}'
-  publish:
-    name: "Publish"
-    runs-on: "ubuntu-latest"
-    if: "${{ inputs.action == 'publish' }}"
-    environment: publish
-    steps:
       - name: "Return"
         id: "return"
         if: ${{ !cancelled() }}
