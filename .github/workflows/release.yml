@@ -30,7 +30,7 @@ concurrency:
   group: "${{ github.workflow }}-${{ github.ref }}-${{ inputs.action }}"
 jobs:
   release:
-    name: "Release (${{ inputs.action }})"
+    name: "Release"
     runs-on: "ubuntu-latest"
     if: "${{ inputs.action != 'publish' }}"
     steps:
@@ -66,7 +66,7 @@ jobs:
             https://api.github.com/repos/${{ inputs.releaser_repository }}/actions/workflows/resume.yml/dispatches \
             -d '{"ref":"${{ inputs.releaser_ref }}","inputs":{"repository":"${{ github.repository }}", "run_id":"${{ github.run_id }}", "run_attempt":"${{ github.run_attempt }}"}}'
   publish:
-    name: "Publish (${{ inputs.action }})"
+    name: "Publish"
     runs-on: "ubuntu-latest"
     if: "${{ inputs.action == 'publish' }}"
     environment: publish
