@@ -60,7 +60,7 @@ jobs:
         run: |
           curl -L -X POST \
             -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Authorization: Bearer ${{ secrets.RELEASE_GITHUB_TOKEN }}" \
             -H "X-GitHub-Api-Version: 2026-03-10" \
             https://api.github.com/repos/${{ inputs.return_dispatch_repository }}/actions/workflows/${{ inputs.return_dispatch_workflow }}/dispatches \
             -d '{"ref":"${{ inputs.return_dispatch_branch }}","inputs":{"repository":"${{ github.ref }}", "run_id":"${{ github.run_id }}", "run_attempt":"${{ github.run_attempt }}"}}'
